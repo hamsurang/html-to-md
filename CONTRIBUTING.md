@@ -5,7 +5,7 @@ Thanks for your interest in contributing to HTML to MD!
 ## Getting Started
 
 ```bash
-git clone https://github.com/gimminsu/html-to-md.git
+git clone https://github.com/minsoo-web/html-to-md.git
 cd html-to-md
 pnpm install
 pnpm run dev
