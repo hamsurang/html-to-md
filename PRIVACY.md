@@ -30,4 +30,4 @@ HTML to MD does **not** collect, store, or transmit any user data.
 
 ## Contact
 
-For questions about this privacy policy, open an issue at [github.com/minsoo-web/html-to-md](https://github.com/minsoo-web/html-to-md).
+For questions about this privacy policy, open an issue at [github.com/hamsurang/html-to-md](https://github.com/hamsurang/html-to-md).
