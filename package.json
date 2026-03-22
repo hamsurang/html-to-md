@@ -1,0 +1,22 @@
+{
+  "name": "html-to-md",
+  "version": "1.0.0",
+  "description": "Convert web pages to clean Markdown for AI agents",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development node esbuild.config.js --watch",
+    "build": "NODE_ENV=production node esbuild.config.js",
+    "build:dev": "NODE_ENV=development node esbuild.config.js",
+    "clean": "rm -rf dist",
+    "test": "node --test test/**/*.test.js"
+  },
+  "dependencies": {
+    "@mozilla/readability": "0.6.0",
+    "turndown": "7.2.0",
+    "turndown-plugin-gfm": "1.0.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  },
+  "packageManager": "pnpm@8.12.1+sha512.6705ea1966adb6587053e6cfe6fddc377f81066228daf736c4490012f44f2ff1bf0c713bb8f3145fce0e3ef669c7c15f19a59ac157838951f234c17b81ca655d"
+}

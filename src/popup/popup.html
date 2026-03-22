@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>HTML to MD</h1>
+      <span id="status" class="status">Converting...</span>
+    </header>
+
+    <div id="result" class="result hidden">
+      <span id="result-icon"></span>
+      <span id="result-text"></span>
+    </div>
+
+    <details id="preview-section" class="preview-section hidden">
+      <summary>Preview markdown</summary>
+      <pre id="preview-text" class="preview-text"></pre>
+    </details>
+
+    <button id="reconvert" class="reconvert-btn hidden">Re-convert & Copy</button>
+
+    <hr>
+
+    <section class="settings">
+      <h2>Settings</h2>
+
+      <label class="toggle">
+        <input type="checkbox" id="includeMetadata" checked>
+        <span>Include title & URL</span>
+      </label>
+
+      <label class="toggle">
+        <input type="checkbox" id="keepImages" checked>
+        <span>Include images</span>
+      </label>
+
+      <label class="toggle">
+        <input type="checkbox" id="keepLinks" checked>
+        <span>Include link URLs</span>
+      </label>
+
+      <h3>Noise Filters</h3>
+      <p class="hint">Remove unwanted elements before conversion. Toggle presets or add your own selectors.</p>
+      <label class="toggle select-all">
+        <input type="checkbox" id="toggle-all-presets">
+        <span>Select All</span>
+      </label>
+      <div id="presets-list" class="presets-list"></div>
+
+      <h3>Custom Selectors</h3>
+      <div id="selectors-list" class="selectors-list"></div>
+      <div class="selector-add">
+        <input type="text" id="new-selector" placeholder="CSS selector (e.g. .ads, .sidebar)">
+        <div class="selector-row">
+          <input type="text" id="new-domain" placeholder="Domain (or * for all)">
+          <button id="add-selector">Add</button>
+        </div>
+      </div>
+      <p id="selector-error" class="error hidden"></p>
+    </section>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
