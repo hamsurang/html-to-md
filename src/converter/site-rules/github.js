@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/html-escape.js';
+
 export function extractGitHub() {
   const path = window.location.pathname;
 
@@ -87,9 +89,3 @@ function extractIssuePR() {
   return parts.length > 0 ? parts.join('\n') : null;
 }
 
-function escapeHtml(text) {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-}

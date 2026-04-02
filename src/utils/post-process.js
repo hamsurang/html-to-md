@@ -9,7 +9,7 @@ function normalizeWhitespace(markdown) {
 function stripUnicodeDecoration(markdown) {
   return markdown
     .replace(/[\u2500-\u257F]/g, '')
-    .replace(/[\u2700-\u27BF]/g, '')
+    .replace(/[\u2766-\u2767\u2794-\u27BF]/g, '')
     .replace(/[★☆●○◆◇▶►▼▲■□▪▫◈◉✦✧✪✫✬✭✮✯✰]/g, '');
 }
 
