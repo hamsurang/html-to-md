@@ -35,6 +35,8 @@ function showResult(type, icon, text) {
   document.getElementById('result-text').textContent = text;
 }
 
+let lastMarkdown = null;
+
 // Listen for results from content script
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (sender.id !== chrome.runtime.id) return;
@@ -47,8 +49,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     document.getElementById('status').textContent = 'Done';
     document.getElementById('reconvert').classList.remove('hidden');
 
-    // Show preview
+    // Store markdown and show download button
     if (message.markdown) {
+      lastMarkdown = message.markdown;
+      document.getElementById('download').classList.remove('hidden');
+
       const previewSection = document.getElementById('preview-section');
       document.getElementById('preview-text').textContent = message.markdown;
       previewSection.classList.remove('hidden');
@@ -185,7 +190,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Re-convert button
   document.getElementById('reconvert').addEventListener('click', () => {
     document.getElementById('reconvert').classList.add('hidden');
+    document.getElementById('download').classList.add('hidden');
     triggerConversion();
+  });
+
+  // Download button
+  document.getElementById('download').addEventListener('click', async () => {
+    if (!lastMarkdown) return;
+
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const pageTitle = tab?.title || 'untitled';
+    const filename = pageTitle
+      .replace(/^\(\d+\+?\)\s*/, '')
+      .replace(/\s*\|\s*\w+$/, '')
+      .replace(/[<>:"/\\|?*]/g, '')
+      .trim()
+      .slice(0, 100) || 'page';
+
+    const blob = new Blob([lastMarkdown], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${filename}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
   });
 
   // Select All toggle for noise filters

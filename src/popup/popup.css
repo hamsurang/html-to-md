@@ -68,20 +68,34 @@ body {
   margin-top: 6px;
 }
 
-.reconvert-btn {
-  width: 100%;
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.action-buttons:not(:has(button:not(.hidden))) {
+  display: none;
+}
+
+.reconvert-btn, .download-btn {
+  flex: 1;
   padding: 8px;
-  background: #0969da;
   color: #fff;
   border: none;
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  margin-bottom: 12px;
 }
+
+.reconvert-btn { background: #0969da; }
 .reconvert-btn:hover { background: #0860ca; }
 .reconvert-btn:active { background: #0550ae; }
+
+.download-btn { background: #1a7f37; }
+.download-btn:hover { background: #116329; }
+.download-btn:active { background: #0e5323; }
 
 .select-all {
   font-size: 11px;

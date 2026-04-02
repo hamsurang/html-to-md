@@ -5,16 +5,15 @@ import { postProcess } from './utils/post-process.js';
 import { buildMetadata } from './utils/metadata.js';
 import { writeToClipboard } from './utils/clipboard.js';
 import { showToast } from './utils/toast.js';
-import { detectSite, extractSiteContent } from './converter/site-rules/index.js';
+import { detectSite, extractSiteContent, SITE_LABELS } from './converter/site-rules/index.js';
 import { DEFAULT_SETTINGS } from './utils/defaults.js';
 import { PRESET_SELECTORS } from './utils/presets.js';
 
 ;(() => {
-  let running = false;
+  if (window.__htmlToMdRunning) return;
+  window.__htmlToMdRunning = true;
 
   async function convert() {
-    if (running) return;
-    running = true;
     try {
       if (document.readyState === 'loading') {
         await new Promise(resolve =>
@@ -38,7 +37,6 @@ import { PRESET_SELECTORS } from './utils/presets.js';
         const raw = extractSiteContent(site);
         if (raw) {
           contentNode = parseAndClean(raw);
-          const SITE_LABELS = { github: 'GitHub', stackoverflow: 'Stack Overflow', medium: 'Medium', substack: 'Substack' };
           siteMode = SITE_LABELS[site] || site;
         }
       }
@@ -85,9 +83,16 @@ import { PRESET_SELECTORS } from './utils/presets.js';
       // 5. Post-process
       markdown = postProcess(markdown);
 
-      // 6. Prepend metadata
+      // 6. Prepend metadata (clean Notion title if applicable)
       if (settings.includeMetadata) {
-        markdown = buildMetadata() + markdown;
+        let cleanTitle = null;
+        if (site === 'notion') {
+          cleanTitle = document.title
+            .replace(/^\(\d+\+?\)\s*/, '')
+            .replace(/\s*\|\s*Notion$/, '')
+            .trim() || null;
+        }
+        markdown = buildMetadata(cleanTitle) + markdown;
       }
 
       // 7. Check for empty result
@@ -116,7 +121,7 @@ import { PRESET_SELECTORS } from './utils/presets.js';
       showToast('Conversion failed: ' + (err.message || 'Unknown error'), 'error');
       chrome.runtime.sendMessage({ type: 'conversionError', error: err.message });
     } finally {
-      running = false;
+      window.__htmlToMdRunning = false;
     }
   }
 
